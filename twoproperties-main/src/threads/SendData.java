@@ -17,7 +17,7 @@ public class SendData implements Runnable {
 	String s=null;
     @Override
     public void run() {
-
+	while (Robot.getRun()==1) {
         try {
 
             url = new URL("http://10.65.120.31:8080/rest/lego/setvalues/"+Robot.getRun()+"/"+Robot.getSpeed()+"/"+Robot.getTurn());
@@ -51,7 +51,7 @@ public class SendData implements Runnable {
 				isr.close();
 				is.close();
             conn.disconnect();
-
+			Thread.sleep(50);
         }
 
         catch(Exception e) {
