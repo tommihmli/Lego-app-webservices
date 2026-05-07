@@ -37,20 +37,31 @@ public class ReadViiva implements Runnable{
             vari = lSample[0];
             vaista = vari < 0.3f;
 
-            try{
-                if(vaista){
-                    Thread.sleep(100);
-                }
-                else{
-                    Thread.sleep(100);
-                }
-            } catch(InterruptedException e){
-                e.printStackTrace();
+            if(vaista){
+                RunLego.peruuta();
+                System.out.println("Viiva! " + vari);
+            }
+            else{
+                Robot.getSpeed();
             }
 
             try{
+                if(vaista){
+                    Thread.sleep(1000);
+                }
+                else{
+                    Thread.sleep(1000);
+                }
+            } 
+            catch(InterruptedException e){
+                e.printStackTrace();
+            }
+
+            /* try{
                 url = new URL("http://192.168.0.13:8080/rest/lego/getvalues/"); //+Robot.getRun()+"/"+Robot.getSpeed()+"/"+Robot.getTurn()
                 conn = (HttpURLConnection)url.openConnection();
+                conn.setConnectTimeout(5000);
+                conn.setReadTimeout(5000);
                 InputStream is=null;
                 try{
                     is=conn.getInputStream();
@@ -62,9 +73,9 @@ public class ReadViiva implements Runnable{
                }
                 isr = new InputStreamReader(is);
                 br = new BufferedReader(isr);
-                while((s=br.readline())!=null){
+                while((s=br.readLine())!=null){
                     String [] values=s.split("#");
-                    setVari(values[0]);
+                    ReadViiva.setVari(values[0]);
                 }
 
                 br.close();
@@ -75,7 +86,7 @@ public class ReadViiva implements Runnable{
             catch(Exception e){
                 e.printStackTrace();
                 System.out.println("Some problem!");
-            }
+            } */
             /* try{
                 url2 = new URL("http://192.168.0.13:8080/rest/lego/setvalues/");//+getVari()
                 conn2 = (HttpURLConnection)url2.openConnection();
@@ -115,6 +126,16 @@ public class ReadViiva implements Runnable{
     }
 
     public static void setVari(float vari){
-        this.vari=vari;
+        ReadViiva.vari=vari;
     }
+
+    public static void setVari(String vari){
+        try{
+            ReadViiva.vari=Float.parseFloat(vari);
+        }
+        catch(Exception e){
+
+        }
+    }
+
 }

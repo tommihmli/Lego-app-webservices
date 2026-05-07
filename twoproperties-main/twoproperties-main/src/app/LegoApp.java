@@ -11,6 +11,7 @@ public class LegoApp {
 		ReadDistance readDistance = new ReadDistance();
 		ReadEdge readEdge = new ReadEdge();
 		ReadViiva readViiva = new ReadViiva();
+		SendData sendData = new SendData();
 		
 
 		System.out.println("Run in Threads");
@@ -20,6 +21,7 @@ public class LegoApp {
 		Thread readDistanceThread = new Thread(readDistance);
 		Thread readEdgeThread = new Thread(readEdge);
 		Thread readViivaThread = new Thread(readViiva);
+		Thread sendDataThread = new Thread(sendData);
 		
 
 		runLegoThread.start(); //Saikeen kaynnistys
@@ -27,6 +29,7 @@ public class LegoApp {
 		readDistanceThread.start();
 		readEdgeThread.start();
 		readViivaThread.start();
+		sendDataThread.start();
 		
 
 		

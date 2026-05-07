@@ -16,11 +16,13 @@ public class ReadData implements Runnable{
 
 	@Override
 	public void run() {
-		while (Robot.getRun()==1) {
+		while (true) {
 			
 			try {
-				url = new URL("http://192.168.0.13:8080/rest/lego/getvalues/"); 
+				url = new URL("http://192.168.0.13:8080/rest/lego/getvalues"); 
 				conn = (HttpURLConnection)url.openConnection();
+				conn.setConnectTimeout(5000);
+            	conn.setReadTimeout(5000);
 				InputStream is=null;
 				try {
 					is=conn.getInputStream();
@@ -33,11 +35,15 @@ public class ReadData implements Runnable{
 				isr = new InputStreamReader(is);
 	      		br=new BufferedReader(isr);
 				while ((s=br.readLine())!=null){
-					String [] values=s.split("#");
+					String [] values = s.split("#");
 					Robot.setId(values[0]);
+					System.out.println("Haettu palvelimelta: " + s);
 					Robot.setRun(values[1]);
 					Robot.setSpeed(values[2]);
 					Robot.setTurn(values[3]);
+					ReadViiva.setVari(values[4]);
+					ReadEdge.setSyvyys(values[5]);
+					ReadDistance.setDistanceForward(values[6]);
 				}
 				br.close();
 				isr.close();
@@ -49,7 +55,7 @@ public class ReadData implements Runnable{
 	            System.out.println("Some problem!");
 	  		}
 			try {
-				Thread.sleep(1);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

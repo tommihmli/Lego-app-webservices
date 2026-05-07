@@ -5,8 +5,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.io.OutputStream;
 
 import data.Robot;
+            
+
 
 public class SendData implements Runnable {
     URL url = null;
@@ -17,12 +20,49 @@ public class SendData implements Runnable {
 	String s=null;
     @Override
     public void run() {
-
+	while (Robot.getRun()==1) {
         try {
+            /* +"/"+ReadViiva.getVari()+"/"+ReadEdge.getSyvyys()+"/"+ReadDistance.getDistanceForward() */
 
-            url = new URL("http://10.65.120.31:8080/rest/lego/setvalues/"+Robot.getRun()+"/"+Robot.getSpeed()+"/"+Robot.getTurn());
+            //url = new URL("http://192.168.0.13:8080/rest/lego/setvalues/"+Robot.getRun()+"/"+Robot.getSpeed()+"/"+Robot.getTurn());
+            float v = ReadViiva.getVari();
+            if(Float.isInfinite(v)|| Float.isNaN(v)){
+                v=0;
+            }
+            float sy = ReadEdge.getSyvyys();
+            if(Float.isInfinite(sy)|| Float.isNaN(sy)){
+                sy=0;
+            }
+            float df = ReadDistance.getDistanceForward();
+            if(Float.isInfinite(df) || Float.isNaN(df)){
+                df=0;
+            }
+            
+            
+            url = new URL("http://192.168.0.13:8080/rest/lego/setvalues/"
+            +Robot.getRun() + "/"
+            +Robot.getSpeed() + "/"
+            +Robot.getTurn() + "/" 
+            + v + "/"
+            + sy + "/"
+            + df); 
 
             conn = (HttpURLConnection)url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type","application/json");
+            conn.setDoOutput(true);
+            
+            
+
+           // String jsonInputString = "{\"run\": " + Robot.getRun() + ",\"speed\": " + Robot.getSpeed()+ ",\"turn\": "+Robot.getTurn() + ",\"v\": " + v + ",\"sy\": "+ sy + ",\"df\": "+df+"}";
+
+            /* try(OutputStream os=conn.getOutputStream()){
+                byte[] input =jsonInputString.getBytes("utf-8");
+                os.write(input,0,input.length);
+            } */
+
 
             InputStream is=null;
 
@@ -51,7 +91,7 @@ public class SendData implements Runnable {
 				isr.close();
 				is.close();
             conn.disconnect();
-
+			Thread.sleep(500);
         }
 
         catch(Exception e) {
@@ -61,5 +101,6 @@ public class SendData implements Runnable {
             System.out.println("Some problem!");
 
         }
+    }
 }
 }

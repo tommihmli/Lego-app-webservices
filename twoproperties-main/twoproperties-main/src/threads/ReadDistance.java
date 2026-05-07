@@ -39,10 +39,9 @@ public void run(){
         distanceForward = usSample[0];
         turnAway = distanceForward < 0.20f;
 
-       
-
         if(turnAway){
-            Robot.turnRight();
+            RunLego.peruuta();
+            System.out.println("Esine edessä!" + distanceForward);
         }
         else{
             Robot.getSpeed();
@@ -50,77 +49,40 @@ public void run(){
 
         try{
             if(turnAway){
-                Thread.sleep(100);
+                Thread.sleep(1000);
             }
             else{
-                Thread.sleep(100);
+                Thread.sleep(1000);
             }
         } catch(InterruptedException e){
             e.printStackTrace();
         }
-        try{
-            url = new URL("http://192.168.0.13:8080/rest/lego/getvalues/");//+Robot.getRun()+"/"+Robot.getSpeed()+"/"+Robot.getTurn()
-            conn = (HttpURLConnection)url.openConnection();
-            InputStream is=null;
-            try {
-                is=conn.getInputStream();
-            }
-            catch (Exception e) {
-                System.out.println("Exception conn.getInputSteam()");
-                e.printStackTrace();
-                System.out.println("Cannot get InputStream!");
-            }
-            while ((h=br.readLine())!=null){
-					String [] values=h.split("#");
-					setDistanceForward(values[0]);
-            }
-                br.close();
-				isr.close();
-				is.close();
-				conn.disconnect();
-        }catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Some problem!");
-        }
-        /* try{
-                url2 = new URL("http://192.168.0.13:8080/rest/lego/setvalues/");//+getDistanceForward()
-                conn2 = (HttpURLConnection)url2.openConnection();
-                InputStream is2=null;
-                try{
-                    is2=conn2.getInputStream();
-                }
-                catch(Exception e){
-                    System.out.println("Exception conn2.getInputSteam()");
-                    e.printStackTrace();
-                    System.out.println("Cannot get InputStream!");
-               }
-                isr2 = new InputStreamReader(is2);
-                br2 = new BufferedReader(isr2);
 
-                br2.close();
-                isr2.close();
-                is2.close();
-                conn2.disconnect();
-            }
-            catch(Exception e){
-                e.printStackTrace();
-                System.out.println("Some problem!");
-            } */
+
 
            try {
-				Thread.sleep(1);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} 
+        }
     }
 
     
-}
-    public static float getDistanceForward(){
-        return distanceForward;
-    }
 
-    public static void setDistanceForward(float distanceForward){
-        this.distanceForward=distanceForward;
+        public static float getDistanceForward(){
+            return distanceForward;
+        }
+
+        public static void setDistanceForward(float distanceForward){
+            ReadDistance.distanceForward=distanceForward;
+        }
+        public static void setDistanceForward(String distanceForward){
+            try{
+                ReadDistance.distanceForward=Float.parseFloat(distanceForward);
+            }
+            catch(Exception e){
+
+            }
     }
 }

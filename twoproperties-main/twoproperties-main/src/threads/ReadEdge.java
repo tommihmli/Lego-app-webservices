@@ -34,11 +34,12 @@ public class ReadEdge implements Runnable{
         while(Robot.getRun()==1){
             usSensorB.fetchSample(usBSample,0);
             syvyys = usBSample[0];
-            peruutus = 0.20f < syvyys;
+            peruutus = 0.50f < syvyys;
 
 
             if(peruutus){
-                Robot.turnLeft();
+                RunLego.peruuta();
+                System.out.println("Reuna!" + syvyys);
             }
             else{
                 Robot.getSpeed();
@@ -46,18 +47,20 @@ public class ReadEdge implements Runnable{
 
             try{
                 if(peruutus){
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 }
                 else{
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 }
             } catch(InterruptedException e){
                 e.printStackTrace();
             }
 
-            try{
+            /* try{
                 url = new URL("http://192.168.0.13:8080/rest/lego/getvalues/");//+Robot.getRun()+"/"+Robot.getSpeed()+"/"+Robot.getTurn()
                 conn = (HttpURLConnection)url.openConnection();
+                conn.setConnectTimeout(5000);
+                conn.setReadTimeout(5000);
                 InputStream is=null;
                 try {
                     is=conn.getInputStream();
@@ -71,7 +74,7 @@ public class ReadEdge implements Runnable{
 	      		br=new BufferedReader(isr);
 				while ((l=br.readLine())!=null){
 					String [] values=l.split("#");
-					setSyvyys(values[0]);
+					ReadEdge.setSyvyys(values[0]);
                 }
                 br.close();
 				isr.close();
@@ -80,7 +83,7 @@ public class ReadEdge implements Runnable{
             }catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Some problem!");
-            }
+            } */
             /* try{
                 url2 = new URL("http://192.168.0.13:8080/rest/lego/setvalues/");//+getSyvyys()
                 conn2 = (HttpURLConnection)url2.openConnection();
@@ -107,20 +110,30 @@ public class ReadEdge implements Runnable{
             } */
 
            try {
-				Thread.sleep(1);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
+        }
         
         }   
-    }
+    
 
-    public static float getSyvyys(){
-        return syvyys;
-    }
+        public static float getSyvyys(){
+            return syvyys;
+        }
 
-    public static void setSyvyys(float syvyys){
-        this.syvyys=syvyys;
-    }
+        public static void setSyvyys(float syvyys){
+            ReadEdge.syvyys=syvyys;
+        }
+
+        public static void setSyvyys(String syvyys){
+            try{
+                ReadEdge.syvyys=Float.parseFloat(syvyys);
+            }
+            catch(Exception e){
+
+            }
+        }
+    
 }

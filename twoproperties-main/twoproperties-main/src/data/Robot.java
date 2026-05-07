@@ -8,6 +8,7 @@ public class Robot {
 	private static int run=1;
 	
 	
+	
 	public static int getId() {
 		return id;
 	}
@@ -54,10 +55,6 @@ public class Robot {
 		}
 	}
 
-	// public static int peruuta(){
-	// 	Robot.speed = speed-speed-speed;
-	// 	Robot.turnLeft
-	// }
 	
 	public static int getTurn() {
 		return turn;
@@ -87,4 +84,5 @@ public class Robot {
 			///run remains unchanged
 		}
 	}
+	
 }
