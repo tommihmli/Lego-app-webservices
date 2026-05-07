@@ -1,1 +1,0 @@
-"/Users/tommihamalainen/Downloads/jdk-26.jdk/Contents/Home/bin" -classpath ..\lib\ev3classes.jar .\app\*.java .\data\*.java .\threads\*.java

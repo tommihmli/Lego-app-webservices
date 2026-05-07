@@ -1,1 +1,0 @@
-"/Users/tommihamalainen/Downloads/jdk-26.jdk/Contents/Home/bin/jar" -cfe legoapp.jar app.LegoApp ..\lib\ev3classes.jar .\app .\data .\threads
